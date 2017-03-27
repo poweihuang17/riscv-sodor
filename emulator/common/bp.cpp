@@ -1,6 +1,8 @@
 #include "bp.h"
 #include <map>
 
+#include <stdio.h>
+
 #define BUBBLE 0x4033
 
 
@@ -71,6 +73,8 @@ class BTB : public BranchPredictor
     BTBEntry_t* table;
 
   public:
+
+
     BTB ( struct bp_io& _io ) : BranchPredictor ( _io )
     {
       table = new BTBEntry_t[BTB_ENTRIES];
@@ -97,6 +101,7 @@ class BTB : public BranchPredictor
 
       // Only return a prediction of the entry's tag matches this
       // PC in order to avoid aliasing.
+
       if ( entry.tag_pc == pc ) 
         return entry.target_pc;
 
@@ -196,9 +201,14 @@ class NoBP: public BranchPredictor
 
 void BranchPredictor::clock_lo ( dat_t<1> reset )
 {
-  if( reset.lo_word ( ) || !io.stats_reg_ptr->lo_word ( ) )
-    return;
 
+  // if( reset.lo_word ( ) || !io.stats_reg_ptr->lo_word ( ) )
+  //   return;
+
+   if( reset.lo_word ( ))
+     return;
+
+  
   // Examine instruction in execute stage and use it to call update_execute()
   update_execute_base (
       io.exe_reg_pc_ptr->lo_word ( ),
@@ -221,8 +231,9 @@ void BranchPredictor::clock_hi ( dat_t<1> reset )
   // processor.
   uint32_t if_pc        = io.if_pc_reg_ptr->lo_word();
   uint32_t if_pred_targ = predict_fetch ( if_pc );
-  *(io.if_pred_target_ptr) = LIT<32>( if_pred_targ );
-  *(io.if_pred_taken_ptr) = LIT<1>( if_pred_targ != 0 );
+   *(io.if_pred_target_ptr) = LIT<32>( if_pred_targ );
+   *(io.if_pred_taken_ptr) = LIT<1>( if_pred_targ != 0 );
+
 }
 
 
@@ -255,10 +266,17 @@ BranchPredictor::BranchPredictor ( struct bp_io& _io )  : io(_io)
 
 BranchPredictor::~BranchPredictor ( )
 {
-  fprintf ( stderr, "## BRJMPs %ld\n", brjmp_count );
-  fprintf ( stderr, "## INSTS %ld\n", inst_count );
-  fprintf ( stderr, "## MISREDICTS %ld\n", mispred_count );
+  
+  fprintf ( stderr, "##--------- PROFILING --------------------\n");
+  fprintf ( stderr, "## INSTS  %ld\n", inst_count );
   fprintf ( stderr, "## CYCLES %ld\n", cycle_count );
+  fprintf ( stderr, "## IPC    %f\n", (double)inst_count/cycle_count );
+  fprintf ( stderr, "\n");  
+  fprintf ( stderr, "## BRJMPs      %ld\n", brjmp_count );
+  fprintf ( stderr, "## MISPREDICTS %ld\n", mispred_count );
+  fprintf ( stderr, "## MPKI        %f\n", ((double)(mispred_count*1000)/inst_count) );
+  fprintf ( stderr, "## MISS RATE   %f\n", ((double)mispred_count/brjmp_count) );
+
 }
 
 
