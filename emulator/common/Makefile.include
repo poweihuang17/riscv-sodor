@@ -178,7 +178,8 @@ global_bmarks = \
 	qsort \
 	towers \
 	vvadd \
-	dhrystone
+	dhrystone \
+    qsortM 
 
 # Local benchmarks
 local_bmarkdir = ../../test/riscv-bmarks
@@ -194,7 +195,7 @@ global_bmarks_outgz = $(addsuffix .riscv.out.gz, $(global_bmarks))
 global_bmarks_vpd = $(addsuffix .riscv.vpd, $(global_bmarks))
 
 asm_test_timeout ?=30000
-bmark_timeout ?=1000000000
+bmark_timeout ?=100000000
                            
 # allow some processors to override testmod when running benchmarks
 filetype=riscv.hex
