@@ -17,7 +17,7 @@ import scala.math._
 
 class MStatus extends Bundle {
   val sd = Bool()
-  val zero2 = UInt(width = 31)
+  val zero2 = UInt(width = 2)  //XLEN-30,WPRI field in 1.9.1. Set to zero now. XLEN=32 for RV32I
   val sd_rv32 = UInt(width = 1)
   val zero1 = UInt(width = 9)
   val vm = UInt(width = 5)
