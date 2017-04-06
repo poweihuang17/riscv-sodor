@@ -18,20 +18,24 @@ import scala.math._
 class MStatus extends Bundle {
   val sd = Bool()
   val zero2 = UInt(width = 2)  //XLEN-30,WPRI field in 1.9.1. Set to zero now. XLEN=32 for RV32I
-  val sd_rv32 = UInt(width = 1)
-  val zero1 = UInt(width = 9)
-  val vm = UInt(width = 5)
+  val vm = UInt(width = 5) //WARL
+  val zero4=UInt(width=4)
+  val mxr=Bool()
+  val pum=Bool()
   val mprv = Bool()
   val xs = UInt(width = 2)
   val fs = UInt(width = 2)
-  val prv3 = UInt(width = 2)
-  val ie3 = Bool()
-  val prv2 = UInt(width = 2)
-  val ie2 = Bool()
-  val prv1 = UInt(width = 2)
-  val ie1 = Bool()
-  val prv = UInt(width = 2)
-  val ie = Bool()
+  val mpp = UInt(width = 2)
+  //val hpp=UInt(width=2)
+  //val spp=Bool()
+  val mpie=Bool()
+  //val hpie=Bool()
+  //val spie=Bool()
+  //val upie=Bool()
+  val mie=Bool()
+  //val hpie=Bool()
+  //val spie=Bool()
+  //val uie=Bool()
 }
 
 class MIP extends Bundle {
