@@ -57,7 +57,8 @@ class BranchPredictor
     virtual void update_execute ( 
                           uint32_t pc,        // PC of this inst (in execute)
                           uint32_t pc_next,   // actual next PC of this inst
-                          bool mispredict, // predict_fetch for this inst
+                          bool mispredict, // predict result correct or not for this inst. Either predict error or\
+                          predict target error will be counted as misprediction.
                           bool     is_brjmp,  // is actually a branch or jump
                           uint32_t inst )     // The inst itself, in case you
     { }                                       // want to extract arbitrary info 
