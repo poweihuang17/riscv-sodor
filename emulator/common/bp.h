@@ -30,7 +30,7 @@ class BranchPredictor
     BranchPredictor ( struct bp_io& _io );
     // Destructor must be virtual so that the delete at the end of main()
     // in emulator.cpp will call the child's destructor.
-    ~BranchPredictor ( );
+    virtual ~BranchPredictor ( );
 
     // This static function is called by main() in emulator.cpp, which uses
     // whatever particular class of branch predictor you choose to return.
