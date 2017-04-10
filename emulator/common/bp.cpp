@@ -60,7 +60,7 @@ class PredictorTemplate : public BranchPredictor
 //
 
 #define BTB_ADDR_BITS 5
-#define BTB_ENTRIES (1 << (BTB_ADDR_BITS-1))
+#define BTB_ENTRIES (1 << (BTB_ADDR_BITS))
 
 // Sample branch predictor provided for you: a simple branch target buffer.
 class BTB : public BranchPredictor 
@@ -91,7 +91,7 @@ class BTB : public BranchPredictor
     {
       // Extract lower BTB_ADDR_BTS bits from (pc >> 2)
       // Shift PC right two because lower two bits always zero.
-      const uint32_t mask = (1 << (BTB_ADDR_BITS-1)) - 1;
+      const uint32_t mask = (1 << (BTB_ADDR_BITS)) - 1;
       return (pc >> 2) & mask;
     }
 
